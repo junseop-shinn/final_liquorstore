@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
+    
+    <title>MyLiquerStore (Team_A) Final Project</title>
+</head>
+<body ng-app="spApp">
+<!-- #################################### -->
+<!-- Nav Menu Part                        -->
+<!-- #################################### -->
+    <nav>
+        <h6 class="marquee" ng-show="logFlag">welcome to <span>{{loggedUser.fname}}</span></h6>
+        <div class="nav_up">
+            <ul class="login_menu">
+                <li ng-hide="logFlag">
+                    <a href="#!login">
+                        <i class="fi fi-rs-user"></i> Sign in</a>
+                </li>
+                <li ng-show="logFlag">
+                    <a href="#!billing" ng-click="goBilling()">
+                        Cart <i class="fi fi-rr-shopping-cart"></i>(
+                        <span class="cartNum">{{cartNum}}</span>  
+                        <span ng-if="cartNum>0" class="cartTotal"> ${{cartTotal}} </span>)
+                    </a>
+                </li>
+                <li ng-show="logFlag">|</li>
+                <li ng-show="logFlag">
+                    <a href="#/!" ng-click="logoutHandler()">
+                        Log<i class="fi fi-sr-user"></i>out</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav_down">
+            <figure>
+                <a href="#/!" ng-model="curPage" ng-click="setDefault()">
+                    <img src="./img/logo.png"/> 
+                    <span>My-Liquer(Team A)</span>
+                </a>
+            </figure>
+            <ul class="menu">
+                <li>
+                    <a href="#!about" ng-model="curPage">About</a>
+                </li>
+                <li>
+                    <a href="#/!" ng-click="setBeer()">Beer</a>
+                </li>
+                <li>
+                    <a href="#/!" ng-click="setWine()">Wine</a>
+                </li>
+                <li>
+                    <a href="#!history">Order History</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br/>
+<!-- #################################### -->
+<!-- Main Page Part                       -->
+<!-- #################################### -->
+    <main ng-view>
+
+    </main>
+
+<!-- #################################### -->
+<!-- Footer Part                          -->
+<!-- #################################### -->
+    <footer>
+        <section>
+            <aside>
+                <h5>contact</h5>
+                <small>
+                    <p><a href="#">+ 123 456 7890</a></p>
+                    <a href="mailto:team_A_myliquer@mail.com">team_A_myliquer@mail.com</a>
+                </small>
+                <address><a href="#">5678 West Penda Street, Vancouver, BC, Canada</a></address>
+            </aside>
+            <aside>
+                <h5>follow us</h5>
+                <blockquote>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                </blockquote>
+            </aside>
+        </section>
+    </section>
+    <article>
+        <aside class="copyright">
+            <span>Copyright &copy; 2023 Tamwood College Careers Web Development | JS Advanced Final Project | Team A</span>
+            <p>Design by <span><a>Nao Aoyama</a> | <a>Claire Na</a> | <a>Junseop Shin</a> | <a>José Enrique Jiménez Rojas</a></span></p>
+        </aside>
+    </article>        
+    </footer>
+</body>
+
+<!-- #################################### -->    
+<!-- #################################### -->    
+<!-- Scripts Logic Part (AngularJS)       -->
+<!-- #################################### -->
+<!-- #################################### -->        
+<script type="module">
+import User from './classes/User.js';
+import Product from './classes/Product.js';
+import ProductList from './classes/ProductList.js';
+    
+// ####################################
+// Routing Logic Part
+// ####################################
+    let spApp = angular.module("spApp",["ngRoute"]);
+    spApp.config(function($routeProvider){
+        $routeProvider
+        .when("/",{
+            templateUrl:'./pages/Home.html',
+            controller : 'homeCtrl'
+        })
+        .when("/login",{
+            templateUrl:'./pages/Login.html',
+            controller : 'loginCtrl'
+        })
+        .when("/about",{
+            templateUrl:'./pages/About.html',
+            controller : 'aboutCtrl'
+        })
+        .when("/detail",{
+            templateUrl:'./pages/Detail.html',
+            controller : 'detailCtrl'
+        })
+        .when("/billing",{
+            templateUrl:'./pages/Billing.html',
+            controller : 'billingCtrl'
+        })
+        .when("/buynow",{
+            templateUrl:'./pages/Buynow.html',
+            controller : 'buynowCtrl'
+        })
+        .when("/history",{
+            templateUrl:'./pages/History.html',
+            controller : 'historyCtrl'
+        })
+        .otherwise({
+            templateUrl:'./pages/404.html'
+        })
+    });
+    
+// ####################################
+// Application Run() Logic Part
+// ####################################
+    spApp.run(function($rootScope,$location,$http){
+        $rootScope.email = "team_a@mail.com"; //defalut for test
+        $rootScope.pass = "123";              //defalut for test
+        $rootScope.curPage = "home";
+        $rootScope.selectItem = "";
+        $rootScope.selectPid  = "";
+        $location.path("/");
+        $rootScope.cartNum   = 0;
+        $rootScope.cartTotal = 0;
+        $rootScope.buyNum   = 0;
+        $rootScope.buyTotal = 0;
+        $rootScope.encKey = "TeamA";
+        $rootScope.historyOrder = {'oid':1,'user':'','totalamt':0,'totalprice':0,'orderdate':''};
+        $rootScope.historyList = [];
+        $rootScope.orderCnt = 1;
+        $rootScope.findb = false;
+        $rootScope.findw = false;
+        $rootScope.term  = true;
+
+        // Crypto-JS Encrypt/Decrypt Functions
+        $rootScope.encrypt = function(data){
+            return CryptoJS.AES.encrypt(data,$rootScope.encKey).toString();
+        }
+        
+        $rootScope.decrypt = function(encData){
+            let decData = CryptoJS.AES.decrypt(encData,$rootScope.encKey);
+            return decData.toString(CryptoJS.enc.Utf8);
+        }
+
+        // Watch function - monitoring changes all the time
+        $rootScope.$watch(
+            // Managing Cart number and total price
+            $rootScope.cartTotal = function(){
+                //Get Current Shopping cart for this customer
+                if($rootScope.shoppingCart!=null){
+                    $rootScope.cartNum = $rootScope.shoppingCart.getTotalAmt();
+                    $rootScope.cartTotal = $rootScope.shoppingCart.getTotalPrice();
+                }
+                if($rootScope.buynowCart!=null){
+                    $rootScope.buyNum = $rootScope.buynowCart.getTotalAmt();
+                    $rootScope.buyTotal = $rootScope.buynowCart.getTotalPrice();
+                }
+                if($rootScope.cartNum>0){
+                    angular.element(".cartNum").addClass("cartFull");
+                    angular.element(".cartNum").removeClass("cartEmpty");
+                }else{
+                    angular.element(".cartNum").addClass("cartEmpty");
+                    angular.element(".cartNum").removeClass("cartFull");
+                }
+            }
+        );
+
+        // Check Login user from session Storage
+        let user = sessionStorage.getItem('loguser');
+
+        if(user==null){
+            $rootScope.logFlag = false;
+        }else{
+            $rootScope.loggedUser = JSON.parse($rootScope.decrypt(user));
+            console.log("Refresh Login Check");
+            console.log($rootScope.loggedUser);
+            $rootScope.shoppingCart = new ProductList($rootScope.loggedUser.uid,$rootScope.loggedUser.fname,$rootScope.loggedUser.lname);
+            $rootScope.buynowCart   = new ProductList($rootScope.loggedUser.uid,$rootScope.loggedUser.fname,$rootScope.loggedUser.lname);
+            $rootScope.allUsersCart = new ProductList($rootScope.loggedUser.uid,$rootScope.loggedUser.fname,$rootScope.loggedUser.lname);
+            $rootScope.logFlag = true;
+            console.log("Shopping Cart2");
+
+            let cart = new Map(JSON.parse(localStorage.getItem('allUsersCart')));
+            cart.forEach((val,idx)=>{
+                // Only take login user's Cart items into MapList
+                if(idx.substring(0,idx.indexOf("_"))==$rootScope.loggedUser.uid){
+                    console.log("Create ShoppoingCart2");
+                    console.log(idx,val);
+                    $rootScope.shoppingCart.setCart(idx,val);
+                }
+                // This Cart includes all users cart items
+                $rootScope.allUsersCart.setCart(idx,val);
+            })
+            console.log("After refresh");
+            console.log("ShoppingCart/AllUsersCart");
+            console.log($rootScope.shoppingCart);
+            console.log($rootScope.allUsersCart);
+        }
+
+        //Set up HistoryCart Array[]
+        let historycart = JSON.parse(localStorage.getItem('historyCart'));
+        if(historycart!=null){
+            historycart.forEach((val)=>{
+                // This Cart includes all users cart items
+                $rootScope.historyList.push(val);
+            })
+            console.log("HistoryCart");
+            console.log($rootScope.historyList);
+        }
+
+        // Check New Register user
+        if(localStorage.getItem('users')!=null){
+            var newuser = $rootScope.decrypt(localStorage.getItem('users'));
+        }else{
+            var newuser = null;
+        }
+
+        $http.get('./data/users.json').then((response)=>{
+            $rootScope.users = response.data;
+
+            // Get user infomation from JSON file and save it to localStorage, 
+            // only when there's no new registered users
+            if(newuser == null){
+                localStorage.setItem('users',$rootScope.encrypt(JSON.stringify($rootScope.users)));
+            }
+        });
+
+        $http.get('./data/products.json').then((response)=>{
+            $rootScope.items = response.data;
+            // console.log($rootScope.items);
+        });
+
+        $rootScope.logoutHandler = function(){
+            // LogOut Sesssion storage clear
+            sessionStorage.clear();
+            localStorage.removeItem('shoppingCart');
+            $rootScope.logFlag = false;
+            $rootScope.email = "";
+            $rootScope.pass = "";
+            let userObj = new User(99999,'GUEST','GUEST','guest@mail.com','GUEST','VANCOUVER');
+            $rootScope.loggedUser = userObj;
+        }
+
+        $rootScope.goBilling = function(){
+            $location.path("/billing");
+        }
+
+    });
+
+// ####################################
+// Home Page - Controller Part
+// ####################################
+    spApp.controller("homeCtrl",function($scope,$rootScope,$http,$location){
+        $scope.typeFlag    = false;
+        $scope.priceFlag   = false;
+        $scope.countryFlag = false;
+        $scope.volumeFlag  = false;
+        $rootScope.selectItem ="";
+        console.log("Home Ctrl Page Enter=======");
+        
+        // Set up User-Class as a Guest mode
+        if($rootScope.loggedUser==null){
+            let userObj = new User(99999,'GUEST','GUEST','guest@mail.com','GUEST','VANCOUVER');
+            $rootScope.loggedUser = userObj;
+            console.log($rootScope.loggedUser);
+        }
+
+        // Clear Buynow Cart
+        localStorage.removeItem('buynowCart');
+        if($rootScope.buynowCart!=null){
+            $rootScope.buynowCart.pList.clear();
+        }
+        
+        // Navigate Beer & Wine menu
+        $rootScope.setDefault = function(){
+            $rootScope.findb = false;
+            $rootScope.findw = false;
+            console.log("setDefault",$rootScope.findb,$rootScope.findw);
+        }
+        $rootScope.setBeer = function(){
+            $rootScope.findb = true;
+            $rootScope.findw = false;
+            console.log("setBeer",$rootScope.findb,$rootScope.findw);
+            // $scope.typeFlag  = false;
+            // $scope.filterHandler('type');
+        }
+        $rootScope.setWine = function(){
+            $rootScope.findw = true;
+            $rootScope.findb = false;
+            console.log("setWine",$rootScope.findb,$rootScope.findw);
+            // $scope.typeFlag  = false;
+            // $scope.filterHandler('type');
+        }
+
+        // Filter Hide and Show function
+        $scope.filterHandler = function(flag){
+            console.log(flag);
+            if(flag=="type"){
+                console.log($scope.typeFlag);
+                if($scope.typeFlag==true) $scope.typeFlag=false;
+                else $scope.typeFlag = true;
+            }else
+            if(flag=="price"){
+                if($scope.priceFlag==true) $scope.priceFlag=false;
+                else $scope.priceFlag = true;
+            }else
+            if(flag=="country"){
+                if($scope.countryFlag==true) $scope.countryFlag=false;
+                else $scope.countryFlag = true;
+            }else
+            if(flag=="volume"){
+                if($scope.volumeFlag==true) $scope.volumeFlag=false;
+                else $scope.volumeFlag = true;
+            }
+        };
+
+        // When Item selected, Page Moving Function
+        $scope.selItem = function($event){
+            $rootScope.selectItem = $event.target.parentNode.parentNode.innerText;
+            console.log("Click - Home Ctrl");
+            $location.path("/detail");
+        }
+    });
+// ####################################
+// About Page - Controller Part
+// ####################################
+    spApp.controller("aboutCtrl",function($scope,$rootScope){
+        $scope.msg = "About Ctrl";
+    });
+// ####################################
+// Detail Page - Controller Part
+// ####################################
+    spApp.controller("detailCtrl",function($scope,$rootScope,$location){
+        console.log("Detail Ctrl Page=======");
+        // Find selected Item's PID
+        $rootScope.selectPid = $rootScope.selectItem.substr(0,$rootScope.selectItem.indexOf(")"));
+        $scope.chosenQty = "1";
+
+        $rootScope.items.forEach(item => {
+            if($rootScope.selectPid == item.pid){
+                $rootScope.chosenItem = item;
+            }
+        });
+        
+        // Add Cart Button Click Function
+        $scope.goHome = function(){
+            // Save Added Item into ProductList Class and LocalStorage
+            console.log("Add Cart");
+
+            console.log($rootScope.loggedUser);
+            if($rootScope.loggedUser.uid==99999){ // Guest(not logged in)
+                alert("You have not logged in yet");
+                $location.path("/login");
+            }else{
+                console.log($rootScope.chosenItem.price,$scope.chosenQty);
+                $rootScope.addItem = new Product($rootScope.chosenItem.pid,$rootScope.chosenItem.pname,$rootScope.chosenItem.price,parseInt($scope.chosenQty),$rootScope.chosenItem.src);
+                $rootScope.shoppingCart.addCart($rootScope.loggedUser.uid,$rootScope.addItem);
+                $rootScope.allUsersCart.addCart($rootScope.loggedUser.uid,$rootScope.addItem);
+    
+                localStorage.setItem('shoppingCart',JSON.stringify([...$rootScope.shoppingCart.pList]));
+                localStorage.setItem('allUsersCart',JSON.stringify([...$rootScope.allUsersCart.pList]));
+            }
+        }
+
+        // Buy Now Button Click Function(Move to Billing)
+        $scope.goCart = function(){
+            // Save Added Item into BuynowCart
+            console.log("Buynow Cart");
+            console.log($rootScope.chosenItem);
+            console.log($scope.chosenQty);
+            $rootScope.addItem = new Product($rootScope.chosenItem.pid,$rootScope.chosenItem.pname,$rootScope.chosenItem.price,parseInt($scope.chosenQty),$rootScope.chosenItem.src);
+            // Shopping as a Guest mode
+            if($rootScope.loggedUser.uid==99999){
+                $rootScope.buynowCart= new ProductList('99999','GUEST','GUEST');
+            }
+            
+            $rootScope.buynowCart.addCart($rootScope.loggedUser.uid,$rootScope.addItem);
+            localStorage.setItem('buynowCart',JSON.stringify([...$rootScope.buynowCart.pList]));
+            console.log($rootScope.buynowCart);
+            $location.path("/buynow");
+        }
+
+        // Recommend Items
+        $scope.recommend = function (){
+            $scope.recomList = [];
+            $rootScope.items.forEach(item => {
+                // Rule : Same type + Same Counrty or Similar Price Range
+                if($rootScope.chosenItem.pid != item.pid &&
+                   $rootScope.chosenItem.type == item.type && 
+                   ($rootScope.chosenItem.country == item.country ||
+                   ($rootScope.chosenItem.price+5 > item.price &&  
+                    $rootScope.chosenItem.price-5 < item.price))){
+                        $scope.recomList.push(item); // make a list for recommendation
+                    // console.log(item);
+                }
+            });
+            console.log("Recommend Items"); // Pick One Random Item inside of List
+            $scope.recommendItem = $scope.recomList[Math.random() * $scope.recomList.length | 0];
+            console.log($scope.recommendItem);
+        }
+        $scope.recommend();
+
+        $scope.goRecommend = function(){
+            $rootScope.chosenItem = $scope.recommendItem;
+            $scope.recommend();
+            $location.path("/detail");
+        }
+
+    });
+// ####################################
+// Billing Page - Controller Part
+// ####################################
+    spApp.controller("billingCtrl",function($scope,$rootScope){
+        console.log("Billing Ctrl Page=======");
+        $scope.chkoutflag = false;
+        $scope.cartList = $rootScope.shoppingCart.toArray();
+        console.log($scope.cartList);
+
+        $scope.removeItem = function(pid){
+                console.log("RemoveItem");
+                let key = $rootScope.loggedUser.uid+"_"+pid;
+                console.log(pid,key);
+                $rootScope.shoppingCart.delCart(key);
+                $rootScope.allUsersCart.delCart(key);
+                localStorage.setItem('shoppingCart',JSON.stringify([...$rootScope.shoppingCart.pList]));
+                localStorage.setItem('allUsersCart',JSON.stringify([...$rootScope.allUsersCart.pList]));
+                $scope.cartList = $rootScope.shoppingCart.toArray();
+            }
+        $scope.editItem = function(type,item){
+                console.log("PlusItem");
+                let key = $rootScope.loggedUser.uid+"_"+item.pid;
+                console.log(type,key);
+                $rootScope.shoppingCart.editCart(type,key);
+                $rootScope.allUsersCart.editCart(type,key);
+                localStorage.setItem('shoppingCart',JSON.stringify([...$rootScope.shoppingCart.pList]));
+                localStorage.setItem('allUsersCart',JSON.stringify([...$rootScope.allUsersCart.pList]));
+                $scope.cartList = $rootScope.shoppingCart.toArray();
+            }
+        $scope.chkout = function(){
+            console.log("Check Out!!");
+            // Save Order infomation into History Cart
+            let curdate = Date(Date.now()).toLocaleString().split(',')[0];
+            let cnt = curdate.indexOf("GMT");
+            let currdate = curdate.substring(0,curdate.indexOf("GMT"));
+            $rootScope.historyOrder = {'oid':$rootScope.orderCnt,'user':$rootScope.loggedUser.uid,'totalamt':$rootScope.cartNum,'totalprice':$rootScope.cartTotal,'orderdate':currdate};
+            $rootScope.historyList.push($rootScope.historyOrder);
+            localStorage.setItem('historyCart',JSON.stringify([...$rootScope.historyList]));
+            $rootScope.orderCnt++;
+
+            // Clear Cart
+            $scope.chkoutflag = true;
+            let id = $rootScope.loggedUser.uid;
+            console.log(id);
+            $rootScope.shoppingCart.clearCart(id);
+            $rootScope.allUsersCart.clearCart(id);
+            localStorage.setItem('shoppingCart',JSON.stringify([...$rootScope.shoppingCart.pList]));
+            localStorage.setItem('allUsersCart',JSON.stringify([...$rootScope.allUsersCart.pList]));
+        }
+    });
+// ####################################
+// Buynow Page - Controller Part
+// ####################################
+    spApp.controller("buynowCtrl",function($scope,$rootScope){
+        console.log("Buynow Ctrl Page=======");
+        $scope.chkoutflag = false;
+        $scope.buyList = $rootScope.buynowCart.toArray();
+        console.log($scope.buyList);
+
+        $scope.removeItem = function(pid){
+                console.log("RemoveItem");
+                let key = $rootScope.loggedUser.uid+"_"+pid;    
+                console.log(pid,key);
+                $rootScope.buynowCart.delCart(key);
+                localStorage.setItem('buynowCart',JSON.stringify([...$rootScope.buynowCart.pList]));
+                $scope.buyList = $rootScope.buynowCart.toArray();
+            }
+        $scope.editItem = function(type,item){
+                console.log("PlusItem");
+                let key = $rootScope.loggedUser.uid+"_"+item.pid;    
+                console.log(type,key);
+                $rootScope.buynowCart.editCart(type,key);
+                localStorage.setItem('buynowCart',JSON.stringify([...$rootScope.buynowCart.pList]));
+                $scope.buyList = $rootScope.buynowCart.toArray();
+            }
+        $scope.chkout = function(){
+            console.log("Check Out!!");
+            // Save Order infomation into History Cart
+            let curdate = Date(Date.now()).toLocaleString().split(',')[0];
+            let cnt = curdate.indexOf("GMT");
+            let currdate = curdate.substring(0,curdate.indexOf("GMT"));
+            $rootScope.historyOrder = {'oid':$rootScope.orderCnt,'user':$rootScope.loggedUser.uid,'totalamt':$rootScope.buyNum,'totalprice':$rootScope.buyTotal,'orderdate':currdate};
+            $rootScope.historyList.push($rootScope.historyOrder);
+            localStorage.setItem('historyCart',JSON.stringify([...$rootScope.historyList]));
+            $rootScope.orderCnt++;
+
+            // Clear Cart
+            $scope.chkoutflag = true;
+            let id = $rootScope.loggedUser.uid;
+            console.log(id);
+            $rootScope.buynowCart.clearCart(id);
+            localStorage.setItem('buynowCart',JSON.stringify([...$rootScope.buynowCart.pList]));
+        }
+    });
+// ####################################
+// Order History Page - Controller Part
+// ####################################
+spApp.controller("historyCtrl",function($scope,$rootScope,$location){
+        console.log("History Ctrl Page=======");
+        // Display GUEST TEXT on top of history page
+        if($rootScope.loggedUser==null){
+            $scope.currentuser = 99999;
+        }else{
+            $scope.currentuser = $rootScope.loggedUser.uid;
+            $scope.currentname = $rootScope.loggedUser.fname;
+        }
+
+        $rootScope.userhistoryList = [];
+        let cart = JSON.parse(localStorage.getItem('historyCart'));
+        cart.forEach((val)=>{
+            // Only take login user's Cart items into HistoryList
+            if(val.user==$rootScope.loggedUser.uid){
+                console.log("Get only user's History order");
+                $rootScope.userhistoryList.push(val);
+            }
+        })
+        console.log($rootScope.userhistoryList);
+        $scope.move = function(){
+            $location.path("/");
+        }
+    });
+// ####################################
+// Login Page - Controller Part
+// ####################################
+    spApp.controller("loginCtrl",function($scope,$rootScope,$location){
+        $scope.status = '';
+        $scope.customFullscreen = false;
+        $scope.chkbox1 = false;
+        $scope.chkbox2 = true;
+        $scope.logchk = false;
+
+        // User Login function
+        $scope.loginClick = function(e){
+            e.preventDefault();
+
+            if($scope.chkbox1 != true || $scope.chkbox2 != true){
+                alert("Please make sure that you are over 19 years and accept the privacy policy and terms of use.");
+            }else{
+                // Get user infomation from Local Storage
+                $rootScope.users = JSON.parse($rootScope.decrypt(localStorage.getItem('users')));
+
+                $rootScope.users.forEach(user => {
+                    if($scope.email == user.email && $scope.pass == user.pass){
+                        console.log("Login Success");
+                        $scope.logchk = true;
+                        //Create User Class
+                        let userObj = new User(user.uid,user.fname,user.lname,user.email,user.pass,user.city);
+                        console.log(userObj);
+                        $rootScope.loggedUser = userObj;
+                        sessionStorage.setItem('loguser',$rootScope.encrypt(JSON.stringify($rootScope.loggedUser)));
+                        $rootScope.logFlag = true;
+                        
+                        //Create Shopping Cart Class
+                        $rootScope.shoppingCart = new ProductList($rootScope.loggedUser.uid,$rootScope.loggedUser.fname,$rootScope.loggedUser.lname);
+                        $rootScope.buynowCart   = new ProductList($rootScope.loggedUser.uid,$rootScope.loggedUser.fname,$rootScope.loggedUser.lname);
+                        $rootScope.allUsersCart = new ProductList($rootScope.loggedUser.uid,$rootScope.loggedUser.fname,$rootScope.loggedUser.lname);
+                        console.log("Shopping Cart1");
+
+                        let cart = new Map(JSON.parse(localStorage.getItem('allUsersCart')));
+                        cart.forEach((val,idx)=>{
+                            // Only take login user's Cart items into MapList
+                            if(idx.substring(0,idx.indexOf("_"))==$rootScope.loggedUser.uid){
+                                console.log("Create ShoppoingCart1");
+                                console.log(idx,val);
+                                $rootScope.shoppingCart.setCart(idx,val);
+                            }
+                            // This Cart includes all users cart items
+                            $rootScope.allUsersCart.setCart(idx,val);
+                        })
+                        console.log("Right after login");
+                        localStorage.setItem('shoppingCart',JSON.stringify([...$rootScope.shoppingCart.pList]));
+                        console.log($rootScope.shoppingCart);
+                        console.log($rootScope.allUsersCart);
+                        return false;
+                    }                    
+                });
+                if($scope.logchk == false){
+                    console.log("Wrong user/pass!!");    
+                    alert("Wrong username/password!");
+                }else{
+                    $location.path("/");
+                }
+            }            
+        }
+    });
+</script>
+</html>

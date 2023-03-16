@@ -1,0 +1,105 @@
+<h1>Detail Info</h1>
+<h4>({{selectItem}}</h4>
+<div class="detail">
+    <section>
+        <!-- Item Detail Display Section  -->
+        <figure class="itemdetail">
+            <img src="{{chosenItem.src}}">
+            <figcaption>
+                <div>
+                    <h4>{{chosenItem.pname}}</h4>
+                    <small>{{chosenItem.size}} ml</small>
+                </div>
+                <p>$ {{(chosenItem.price*chosenQty).toFixed(2)}}</p>
+                <div class="mb-3 qty">
+                    <span>Quantity : </span>
+                    <select class="form-select" name="qty" id="qty" ng-model="chosenQty">
+                         <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <aside>
+                    <h5>COUNTRY : {{chosenItem.country}}</h5>
+                    <h5>YEAR    : {{chosenItem.year}}</h5>
+                    <h5>ALCOHOL : <span>{{chosenItem.alcohol}} %</span></h5>
+                </aside>
+            </figcaption>
+            <!-- Add Cart Section -->
+            <div class="buybtn">
+                <button type="button" class="btn addcart btn-danger" ng-click="goHome()">
+                    <span class="carttext">Add Cart</span>
+                    <i class="fi carticon fi-rr-shopping-cart-add"></i>
+                </button>
+                <button type="button" class="btn addcart2 btn-warning" ng-click="goCart()">
+                    <span class="carttext2">Buy Now</span>
+                    <i class="fi carticon2 fi-brands-apple pay"></i>
+                </button>
+                <button type="button" class="btn btn-success stockbtn">Find Stores</button>
+            </div>
+            <!-- Cart Display Section -->
+            <div class="recommend">
+                <h6>You also might like this</h6>
+                <h6>We reommend this!</h6>
+                <section class="recomItem" ng-click="goRecommend()">
+                    <aside>{{recommendItem.country}}</aside>
+                    <aside><img src={{recommendItem.src}} /></aside>
+                    <aside>{{recommendItem.pname}}</aside>
+                    <aside>$ {{recommendItem.price}}</aside>
+                </section>
+            </div>
+        </figure>
+        <div class="map">
+            <h3><i class="fi fi-sr-map-marker"></i> Where you find our Liquor Stores in Vancouver</h3>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d83293.85200304873!2d-123.19335734512038!3d49.27766913009339!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sliquor%20store!5e0!3m2!1sen!2sca!4v1678813130823!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Cart Add Button Hover Effect
+    $(".carticon").css({display:'none'});
+    $(".carticon").css({width:'0%'});
+    $(".carticon2").css({display:'none'});
+    $(".carticon2").css({width:'0%'});
+
+    $(".addcart").mouseover((e)=>{
+        $(".carticon").css({display:'flex'});
+        $(".carttext").css({width:'80%'});
+        $(".carticon").css({width:'20%'});
+    });
+    $(".addcart").mouseout((e)=>{
+        $(".carticon").css({display:'none'});
+        $(".carticon").css({width:'0%'});
+    });
+
+    $(".addcart2").mouseover((e)=>{
+        $(".carticon2").css({display:'flex'});
+        $(".carttext2").css({width:'80%'});
+        $(".carticon2").css({width:'20%'});
+    });
+    $(".addcart2").mouseout((e)=>{
+        $(".carticon2").css({display:'none'});
+        $(".carticon2").css({width:'0%'});
+    });
+
+    $(".map").hide();
+
+    $(".stockbtn").click(()=>{
+        console.log("Stock Show");
+        $(".map").slideToggle();
+        if($(".stockbtn").text()=="Hide Map"){
+            $(".stockbtn").text("Find Stores");
+        }else{
+            $(".stockbtn").text("Hide Map");
+        }
+    })
+
+</script>

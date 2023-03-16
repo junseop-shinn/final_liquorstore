@@ -1,0 +1,185 @@
+<h1>Login Page</h1>
+<div class="login">
+    <!-- Login input forms -->
+    <form class="sign" ng-submit="loginClick($event)">
+        <div class="mb-3 row justify-content-start">
+            <div class="col-8">
+                <label for="uemail" class="col-form-label">Email</label>
+                <input ng-model="email" type="email" class="form-control" name="uemail" placeholder="Enter your email" required />
+            </div>
+            <div class="col-8">
+                <label for="upass" class="col-form-label">Password</label>
+                <input ng-model="pass" type="password" class="form-control" name="upass" placeholder="Enter your pass" ng-model="email" required />
+            </div>
+        </div>
+        <fieldset class="mb-3 row justify-content-start">
+            <div class="col-8">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" ng-model="chkbox1">
+                  <label class="form-check-label">
+                    Yes, I am <span>19 years</span> or over.
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" ng-model="chkbox2" ng-checked="term">
+                  <label class="form-check-label">
+                    Yes, I have read and accept the Privacy Policy and Terms of Use
+                  </label>
+                </div>
+            </div>
+        </fieldset>
+        <div class="mb-3 row justify-content-start">
+            <div class="col-sm-8">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </form>
+    <!-- Create new Account  -->
+    <form class="new">
+        <div class="mb-3 row justify-content-start">
+            <div class="col-sm-8">
+                <button id="create-user" type="submit" class="btn btn-success">Create Account</button>
+            </div>
+        </div>
+    </form>
+</div>
+<br/><br/>
+
+<!-- New Account Form Modal Box -->
+<div class="newaccount" id="dialog-form" title="&#128525; Enjoy Your Life With Us">
+    <p class="validateTips">To register for our MyLiquer Store, which gives you access to multiple products and services, please fill in the below registration form.</p>
+    <form>
+        <div class="mb-5 dialog">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required value="">
+
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="fname" id="fname" placeholder="Enter your first name" required value="">
+
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="lname" id="lname" placeholder="Enter your last name" required value="">
+
+            <label for="pass" class="form-label">Password</label>
+            <input type="password" class="form-control" name="pass" id="pass" placeholder="Enter your password" required value="">
+
+            <label for="" class="form-label">City</label>
+            <select class="form-select form-select-lg" name="city" id="city" style="width:50%">
+                <option selected disabled>Select one</option>
+                <option value="vancouver">Vancouver</option>
+                <option value="burnaby">Burnaby</option>
+                <option value="surrey">Surrey</option>
+                <option value="langley">Langley</option>
+                <option value="coquitlam">Coquitlam</option>
+                <option value="richmond">Richmond</option>
+                <option value="new westminster">New Westminster</option>
+                <option value="north vancouver">North Vancouver</option>
+                <option value="west vancouver">West Vancouver</option>
+            </select>
+
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="age">
+            <label class="form-check-label">Yes, I am <span>19 years</span> or over.</label>
+          </div>
+        </div>
+    </form>
+  </div>
+  
+
+<script type="module">
+import User from '../classes/User.js';
+    // New Account Popup Modal Logic
+    $( "#create-user" ).removeClass("ui-button");
+    
+    $( function() {
+        var dialog, form,
+        fname  = $( "#fname" ),
+        lname  = $( "#lname" ),
+        email  = $( "#email" ),
+        pass   = $( "#pass" ),
+        city   = $( "#city" ),
+        enckey = "TeamA";
+      
+        let maxid = 0;
+   
+        function encrypt(data){
+            return CryptoJS.AES.encrypt(data,enckey).toString();
+        }
+
+        function decrypt(encData) {
+            let decData = CryptoJS.AES.decrypt(encData,enckey);
+            return decData.toString(CryptoJS.enc.Utf8);
+        }
+
+        function addUser() {
+            //New customer Add to local Storage by Using Class
+            let chk   = "";
+            console.log("New Resister");
+            let users = JSON.parse(decrypt(localStorage.getItem('users')));
+            users.forEach((val)=>{
+                maxid = val.uid; // get max uid
+
+                //New user Validation Check
+                if(val.email == email.val()){
+                    // Alrealy exist user
+                    console.log("Your Email already exists!");
+                    console.log(val.uid,email.val());
+                    chk = "exist";
+                }
+            })
+
+            // 19 age over checkbox
+            if($('#age:checked').val()!="on"){
+                chk="age";
+            }
+
+            // Input Value Null Check
+            if(fname.val()=="" || lname.val()=="" || email.val()==""||
+               pass.val()=="" || city.val()==""){
+                    chk="blank";
+            }
+
+            if(chk=="exist"){
+                alert("Your Email already exists!");
+            }else
+            if(chk=="blank"){
+                alert("You missed a required field!");
+            }else
+            if(chk=="age"){
+                alert("Please make sure that you are over 19 years.");
+            }else{
+                // Create New User Class and push into local Storage
+                let user = new User(++maxid,fname.val(),lname.val(),email.val(),pass.val(),city.val());
+                users.push(user);
+                localStorage.setItem('users',encrypt(JSON.stringify(users)));
+                console.log(users);
+                dialog.dialog( "close" );
+            }
+        }
+   
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 720,
+            width: 500,
+            modal: true,
+            buttons: {
+            "Join": addUser,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+            }
+        });
+   
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addUser();
+        });
+   
+        $( "#create-user" ).button().on( "click", function() {
+            dialog.dialog( "open" );
+        });
+    } );
+    
+</script>

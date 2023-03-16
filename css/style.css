@@ -1,0 +1,895 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/uicons-brands/css/uicons-brands.css');
+
+body {
+    margin: 1%;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ####################################
+// NAV MENU CSS
+// ##################################*/
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav_up {
+    display: flex;
+    align-items: center;
+    height: 10vh;
+    background-color: white;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}  
+
+.nav_up > ul {
+    display: flex; 
+    width: 100%;
+    justify-content: flex-end;
+    list-style-type:none;
+    column-gap: 2vh;
+}
+
+.nav_down {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 2vh;
+    padding-bottom: 3vh;
+    height: 3vh;
+    width: 100%;
+    background-color: white;
+    column-gap: 5%;
+}
+
+.nav_down > figure {
+    display: flex;
+    align-items: center;
+    column-gap: 2vh;
+    font-size: 30px;
+    width: 35%;
+    font-weight: 900;
+}
+
+.nav_down span {
+    color:black;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+figure > a {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    column-gap: 1vh;
+    align-items: center;
+}
+
+.nav_down img {
+    width: 100px;
+    height: 100px;
+}
+
+.nav_down img:hover {
+    border-radius:30%;
+    transition: 1s ease;
+}
+
+.nav_down > ul {
+    display: flex; 
+    width: 60%;
+    justify-content: space-around;    
+    list-style-type:none;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.nav_down span {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+}
+
+.nav_down span:hover {
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+    transition: .4s;
+}
+
+.cartNum {
+    color:black;
+    font-weight: 300;
+    display: inline-block;
+    width: 2.4vh;
+    height: 2.4vh;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.cartFull {
+    color:white;
+    font-weight:600;
+    background-color:red;
+}
+
+.cartEmpty {
+    color:black;
+    font-weight: 300;
+    background-color: white;
+}
+
+.cartTotal {
+    color:red;
+    font-weight: 600;
+}
+
+.menu {
+    height: 4vh;
+}
+
+.menu > li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.menu a {
+    text-align: center;
+    height: 100%;
+}
+
+.login_menu a:hover{
+    text-decoration: underline;
+}
+
+.login_menu {
+    padding-top: 2vh;
+}
+
+.menu a:hover {
+    transition: .2s;
+    border-bottom: 7px solid red;
+}
+
+/* ####################################
+// About Page CSS
+// ##################################*/
+.about {
+    column-gap: 2vh;
+    font-size: 18px;
+    text-align: justify;
+    padding-bottom: 1vh;
+}
+
+.about img {
+    width: 240px;
+    height: 240px;
+    border-radius: 2vh;
+}
+
+.about > section {
+    height: 6vh;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+.about > section > img {
+    width: 24vh;
+    height: 6vh;
+    border-radius: 1vh;
+}
+
+.about > figure {
+    float: left;
+    margin-right: 3vh;
+}
+
+.about p {
+    line-height: 1.5;
+}
+
+h1 {
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-left: 1.5%;
+}
+
+h6 {
+    text-align: end;
+    font-weight: 600;
+}
+
+h6 > span {
+    color :forestgreen;
+}
+
+.marquee {
+    position: absolute;
+    width: 98%;
+    white-space: nowrap;
+    -webkit-animation: rightThenLeft 4s linear;
+}
+
+@-webkit-keyframes rightThenLeft {
+    0%   {right: 80%;}
+    100% {right: 0%;}
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 30%;
+    padding-top: 1%;
+}
+
+.login span {
+    color: red;
+    font-weight: 500;
+}
+
+.dialog > .form-label {
+    padding-top: 1vh;
+}
+
+.dialog > .form-check {
+    padding-top: 2vh;
+}
+
+.form-check-label > span {
+    color: red;
+}
+
+#dialog-form[title]{
+    background-color: black;
+    color: white;
+}
+
+#create-user {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+    height: 4vh;
+    border-radius: 0.5vh;
+}
+
+#create-user:hover {
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+/* ####################################
+// Slideshow Function CSS
+// ##################################*/
+.slideshow-container {
+    width: 100%;
+    position: relative;
+    margin: auto;
+    padding-bottom: 1vh;
+}
+  
+/* Hide the images by default */
+.mySlides {
+    display: block;
+    height: 240px;
+    overflow: hidden;
+}
+
+.mySlides > img {
+    width: 100%;
+}
+  
+/* Next & previous buttons */
+.slide > .prev,.slide > .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+  
+/* Position the "next button" to the right */
+.slide > .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+  
+/* On hover, add a black background color with a little bit see-through */
+.slide > .prev:hover,.slide > .next:hover{
+    background-color: rgba(0,0,0,0.8);
+}
+  
+/* Number text (1/3 etc) */
+.numbertext {
+    color: #717171;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  
+  .active {
+    background-color: #717171;
+  }
+
+/* Fading animation */
+.fade {
+    animation-name: fade;
+    animation-duration: 4.2s;
+}
+
+@keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+}
+
+/* ####################################
+// Search Function CSS
+// ##################################*/
+.search {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 4vh;
+    background-color:lightgray;
+    width: 100%;
+    padding-right: 1vh;
+    column-gap: 1vh;
+}
+
+.search input {
+    border: 0px;
+}
+
+.search > i {
+    width: 3vh;
+    height: 3vh;
+    color: white;
+    font-weight: 800;
+    font-size: 22px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    transition: .2s;
+}
+
+.search > i:hover {
+    cursor: pointer;
+    color: black;
+}    
+
+/* ####################################
+// Filter Function CSS
+// ##################################*/
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    /* height: 50vh; */
+    padding-bottom: 2vh;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+}
+
+.filter {
+    background-color: rgba(0,0,0,.9);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    border-radius: 1vh;
+}
+
+.filter > span {
+    padding: 2vh;
+}
+
+.filter > ul {
+    list-style: none;
+    padding-inline-start: 0px;
+}
+
+.filter > div:hover{
+    background-color: rgba(0,0,0,1);
+    color: yellow;
+    border-radius: 1vh;
+}
+
+/* ####################################
+// Home Page - Item Display Table CSS
+// ##################################*/
+.main_tb > tr {
+    height: 30vh;
+}
+
+.main_tb td {
+    text-align: center;
+    width:20%;
+    border: 1px black solid;
+    border: 2px solid #717171;
+    padding: 10px;
+    box-shadow: 6px 4px 8px -2px;    
+}
+
+.main_tb td:last-child{
+    border-right: none;
+}
+.main_tb td:first-child{
+    border-left: none;
+}
+
+.main_tb aside{
+    height: 30vh;
+    width: 100%;
+    /* border: 1px red solid; */
+}
+
+.item > figure > img {
+    /* width: 5vh; */
+    height: 20vh;
+    /* border: 1px red solid; */
+}
+
+.item small {
+    font-size: 16px;
+}
+
+.item > p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.item > figure p {
+    /* border: 1px red solid; */
+    margin: 0;
+    font-weight: 700;
+}
+
+.item h6 {
+    /* border: 1px red solid; */
+    text-align: center;
+    height: 5vh;
+    padding-top: 1vh;
+    color: tan;
+    margin: 0;
+}
+
+.main_tb aside:hover{
+    background-color: cornsilk;
+    border-radius: 1vh;
+    cursor: pointer;
+}
+
+.basic{
+    background-color: white;
+    border-radius: 1%;
+    padding: 2%;
+}
+
+.page-link{
+    color: black;
+}
+
+.page-item > .active{
+    background-color: lightgray;
+    border: 1px lightgray solid;
+}
+
+.page-link:hover {
+    background-color: whitesmoke;
+    color: black;
+}
+
+/* ####################################
+// Detail Page - Chosen Item CSS
+// ##################################*/
+.itemdetail {
+    display: flex;
+    justify-content: space-around;
+    padding: 3%;
+    border: 3px rgba(0,0,0,0.7) solid;
+    border-radius: 2vh;
+}
+
+.itemdetail h4 {
+    color :#9B0010;
+    font-weight: 400;
+    font-size: 32px;
+}
+
+.itemdetail > img {
+    height: 40vh;
+    padding: 3%;
+}
+
+.itemdetail figcaption {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    justify-content: space-around;
+    border-right: 2px dotted gray;
+    width: 30%;
+}
+
+.itemdetail p {
+    font-size: 28px;
+    color:#9B0010;
+    font-weight: 900;
+}
+
+.itemdetail small {
+    font-size: 20px;
+    padding-bottom: 3vh;
+}
+
+.itemdetail aside span {
+    color: blue;
+    font-weight: 500;
+    padding-left: 0.8vh;
+}
+
+.qty {
+    display: flex;
+    column-gap: 1vh;
+    width: 100%;
+    align-items: center;
+}
+
+.qty > select {
+    width: 23%;
+}
+
+.buybtn {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+    width: 12%;
+}
+
+.recommend {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    background-color: floralwhite;
+    border-radius: 1vh;
+    padding: 1%;
+    width: 20%;
+}
+
+.recommend > h6 {
+    color: green;
+}
+
+.recomItem {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8vh;
+    background-color: white;
+    width: 95%;
+    padding: 5%;
+    cursor: pointer;
+    border-radius: 10%;
+}
+
+.recomItem:hover {
+    color:royalblue;
+}
+
+.recomItem > aside{
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    text-align: center;
+}
+
+.recomItem > .recomfirst{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    color: black;
+}
+
+.recomItem img {
+    height: 200px;
+}
+
+.map {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px black solid;
+    border-radius: 2vh;
+    padding-top: 0.8%;
+    padding-bottom: 1.2%;
+    width: 100%;
+}
+
+.map > h3 {
+    font-size: 20px;
+}
+
+.map > iframe {
+    width: 100%;
+    /* border-radius: 1vh; */
+}
+
+.detail {
+    padding-bottom: 2vh;
+}
+
+.buybtn > .btn-warning{
+    color: white;
+}
+
+.buybtn > .btn {
+    border-radius: 2vh;
+    border: 2px solid ghostwhite;
+}
+
+.buybtn > .btn:hover {
+    border: 2px solid gainsboro;
+}
+
+.addcart, .addcart2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .4s;
+}
+
+.addcart, .addcart2 > span {
+    width: 100%;
+}
+
+.addcart > .carticon {
+    font-size: 22px;
+    display: flex;
+}
+
+.addcart2 > .carticon2 {
+    font-size: 22px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addcart:hover,.addcart2:hover {
+    color: white;
+    font-weight: 500;
+}
+/* ####################################
+// Billing Page - CSS
+// ##################################*/
+.billing {
+    padding: 2%;
+}
+
+.emptycart, .chkout {
+    display: flex;
+    justify-content: center;
+    padding: 7%;
+    border: 4px solid black;
+    border-radius: 4vh;
+    background-color: whitesmoke;
+}
+
+.checkout {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    padding-top: 4vh;
+    padding-bottom: 4vh;
+}
+
+.billimg {
+    width: 5vh;
+    height: 5vh;
+}
+
+.bill-table {
+    font-size: 20px;
+    font-weight: 300;
+    width: 100%;
+}
+
+.history-table {
+    font-size: 20px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.bill-table td,.history-table td {
+    text-align: center;
+    height: 80px;
+    vertical-align: middle;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+
+#billplus {
+    color: white;
+    background-color: orangered;
+    border-radius: 40%;
+    font-weight: 600;
+    padding-right: 2%;
+    padding-left: 2%;
+}
+
+#billamt > span {
+    padding: 2%;
+}
+
+#billfootrow, #billfootrow2{
+    padding-top: 3vh;
+}
+
+.billfoot td {
+    text-align: right;
+    height: 40px;
+    border: 0px;
+}
+
+.billtotal {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.guest {
+    color: tan;
+    padding-left: 2%;
+}
+
+.guest > span {
+    color: orangered;
+    font-weight: 600;
+}
+
+/* ####################################
+// Footer CSS
+// ##################################*/
+footer {
+    display: flex;
+    flex-direction: column;
+}
+
+footer > section {
+    background-color: rgb(25, 25, 25);
+    color: whitesmoke;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3vh;
+    border-bottom : 1px black solid;
+    border-top-right-radius: 1vh;
+    border-top-left-radius: 1vh;
+}
+
+h5 {
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+footer > section p {
+    font-size: 12px;
+    font-weight: 200;
+}
+
+footer > section > aside {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+
+footer small a,footer address a {
+    font-size: 12px;
+    font-weight: 300;
+    text-decoration: none;
+    color: white;
+}
+
+footer small a:hover,footer address a:hover {
+    text-decoration: underline;
+    color: pink;
+    font-weight: 500;
+}
+
+footer blockquote {
+    display: flex;
+    column-gap: 1.5vh;
+}
+
+footer blockquote > a {
+    font-size: 26px;
+    color: white;
+}
+
+footer blockquote > a:hover {
+    color: yellow;
+    scale: 1.3;
+}
+
+.copyright a:hover {
+    background-color:royalblue;
+    border-radius: 2vh;
+}
+
+footer > section address {
+    font-size: 12px;
+    font-weight: 200;
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+footer > article {
+    background-color: black;
+    color: gray;
+    font-size: 12px;
+    font-weight: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 2%;
+    border : 1px black solid;
+    
+}
+
+footer > article > span {
+    width: 100%;
+}
+
+footer > article > aside {
+    text-align: end;
+}
+
+footer p > span {
+    color: white;
+    font-weight: 300;
+}

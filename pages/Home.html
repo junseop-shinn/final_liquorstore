@@ -1,0 +1,810 @@
+<!-- #################################### -->
+<!-- Slideshow Part                       -->
+<!-- #################################### -->
+<div class="slide slideshow-container">
+    <!-- Full-width images with number -->
+    <div class="mySlides fade">
+        <div class="numbertext">1 / 3</div>
+        <img src="./img/slide1.jpg">
+    </div>
+    <div class="mySlides fade">
+        <div class="numbertext">2 / 3</div>
+        <img src="./img/slide2.jpg">
+    </div>
+    <div class="mySlides fade">
+        <div class="numbertext">3 / 3</div>
+        <img src="./img/slide3.webp">
+    </div>
+    <!-- Dot Animation -->
+    <div style="text-align:center">
+        <span class="dot"></span> 
+        <span class="dot"></span> 
+        <span class="dot"></span> 
+    </div>    
+    <!-- Next and previous buttons -->
+    <a class="prev">&#10094;</a>
+    <a class="next">&#10095;</a>
+    <!-- animation error handling hidden variable -->
+    <input class="cpage" type="hidden" value={{curPage}}>
+    <input class="citem" type="hidden" value={{selectItem}}>
+</div>
+<!-- #################################### -->    
+<!-- Search Bar Part                      -->
+<!-- #################################### -->
+<div class="search mb-3">
+    <form class="search_form">
+        <input type="text" class="form-control-sm" id="search" placeholder="Search">
+    </form>
+    <i class="fi fi-br-search searchbutton"></i>
+</div>
+<!-- #################################### -->    
+<!-- Product Filter Part                  -->
+<!-- #################################### -->    
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 filter">
+            <span>
+                Filter Functions
+            </span>
+            <!-- Type Filter Part -->
+            <div ng-click="filterHandler('type')">
+                <i ng-hide="typeFlag" class="fi fi-bs-angle-small-right"></i>
+                <i ng-show="typeFlag" class="fi fi-bs-angle-small-down"></i>
+                TYPE
+            </div>
+            <ul ng-show="typeFlag">
+                <div class="list-group">
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 type_b" type="checkbox" ng-checked="findb">Beer
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 type_w" type="checkbox" ng-checked="findw">Wine
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 type_c" type="checkbox">Ciders
+                    </label>
+                </div>
+            </ul>
+            <!-- Price Filter Part -->
+            <div ng-click="filterHandler('price')">
+                <i ng-hide="priceFlag" class="fi fi-bs-angle-small-right"></i>
+                <i ng-show="priceFlag" class="fi fi-bs-angle-small-down"></i>
+                PRICE
+            </div>
+            <ul ng-show="priceFlag">
+                <div class="list-group">
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 price_1" type="checkbox">$0 - $19.99
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 price_2" type="checkbox">$20 - $49.99
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 price_3" type="checkbox">$50 - $99.99
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 price_4" type="checkbox">$100 +
+                    </label>
+                </div>
+            </ul>
+            <!-- Country Filter Part -->
+            <div ng-click="filterHandler('country')">
+                <i ng-hide="countryFlag" class="fi fi-bs-angle-small-right"></i>
+                <i ng-show="countryFlag" class="fi fi-bs-angle-small-down"></i>
+                COUNTRY
+            </div>
+            <ul ng-show="countryFlag">
+                <div class="list-group">
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_ca" type="checkbox">Canada
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_us" type="checkbox">USA
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_mx" type="checkbox">Mexico
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_br" type="checkbox">Brazil
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_jp" type="checkbox">Japan
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_kr" type="checkbox">Korea
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 country_etc" type="checkbox">Other
+                    </label>
+                </div>
+            </ul>
+            <!-- Alcohol Volume Filter Part -->
+            <div ng-click="filterHandler('volume')">
+                <i ng-hide="volumeFlag" class="fi fi-bs-angle-small-right"></i>
+                <i ng-show="volumeFlag" class="fi fi-bs-angle-small-down"></i>
+                VOLUME
+            </div>
+            <ul ng-show="volumeFlag">
+                <div class="list-group">
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 vol_1" type="checkbox">0 - 349 mL
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 vol_2" type="checkbox">350 - 699 mL
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 vol_3" type="checkbox">700 - 999 mL
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-1 vol_4" type="checkbox">1.00 L + 
+                    </label>
+                </div>
+            </ul>
+        </div>
+<!-- #################################### -->    
+<!-- Products Display Part                -->
+<!-- #################################### -->    
+        <div class="col-xl-10 product" aria-label="Page navigation">
+            <div class="container-fluid row2">
+                <div class="detail col">
+                    <ul class="pagination justify-content-center">
+                    </ul>
+                    <h6><span class="searItemNum"></span> Item(s) Searched</h6>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <tbody class="main_tb">
+                                <tr class="row1">
+                                    <td class="t1" ng-click="selItem($event)">1</td>
+                                    <td class="t2" ng-click="selItem($event)">2</td>
+                                    <td class="t3" ng-click="selItem($event)">3</td>
+                                    <td class="t4" ng-click="selItem($event)">4</td>
+                                </tr>      
+                                <tr class="row2">
+                                    <td class="t5" ng-click="selItem($event)">5</td>
+                                    <td class="t6" ng-click="selItem($event)">6</td>
+                                    <td class="t7" ng-click="selItem($event)">7</td>
+                                    <td class="t8" ng-click="selItem($event)">8</td>
+                                </tr>      
+                                <tr class="row3">
+                                    <td class="t9" ng-click="selItem($event)">9</td>
+                                    <td class="t10" ng-click="selItem($event)">10</td>
+                                    <td class="t11" ng-click="selItem($event)">11</td>
+                                    <td class="t12" ng-click="selItem($event)">12</td>
+                                </tr>      
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- #################################### -->    
+<!-- #################################### -->    
+<!-- Scripts Logic Part (Jquery)          -->
+<!-- #################################### -->
+<!-- #################################### -->        
+<script type="module">
+console.log($("input.cpage").val());
+
+// ####################################
+// SlideShow Logic Part                  
+// ####################################
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    // only slideshow animation works when the page is home
+    if($("input.cpage").val()=="home"){
+        slides[slideIndex-1].style.display = "block";  
+        dots[slideIndex-1].className += " active";
+        setTimeout(showSlides, 4000); // Change image every 4 seconds
+    }
+}
+
+var selectedImg = $('.mySlides').eq(0);
+var imageHandler = () =>{
+    $('.mySlides').hide();
+    selectedImg.show();
+}
+imageHandler();
+
+$('.next').click(()=>{
+    if(selectedImg.index()== $('.mySlides').last().index()){
+        selectedImg = $('.mySlides').first();
+    }else{
+        selectedImg = selectedImg.next();
+    }
+    imageHandler();
+})
+$('.prev').click(()=>{
+    if(selectedImg.index()==0){
+        selectedImg =  $('.mySlides').last();
+    }else{
+        selectedImg = selectedImg.prev();
+    }
+    imageHandler();
+})
+
+// ####################################
+// Pagination Logic function
+// ####################################
+
+// Table data display function(At first)
+var products = [];
+var cnt  = 1;
+var cnt2 = 1;
+var pageNum = 12;
+
+// Pagination implementing function
+var crList = (data)=>{
+    let li = $('<li></li>');
+    let a = $('<a></a>');
+    a.text(data);
+    a.addClass("page-link");
+    if(data == 1){
+        a.addClass("active");
+    }
+    li.append(a);
+    li.addClass("page-item");
+    if(data=="Next"){
+        li.addClass("next");
+    }else if(data=="Prev"){
+        li.addClass("prev");
+    }
+    li.click(listHandler);
+    $('ul.pagination').append(li);
+}
+
+// Load Products to display
+var loadData = ()=>{
+    fetch("./data/products.json").then(response=>{
+    response.json().then(
+        jsonData=>{
+            products = jsonData;
+            popData();
+        } //to convert data to text or json
+    );
+})
+.catch(err=>{
+    console.log(err);
+})
+}
+loadData();
+
+// Products display to table
+var popData = ()=>{
+
+    if($('.type_w').is(':checked')){
+        typeArray.push(1); //wine
+        goFilter();
+    }else if($('.type_b').is(':checked')){
+        typeArray.push(2); //beer
+        goFilter();
+    }else{
+        products.map((val,key)=>{
+            // Item Display Setting
+            let item = "<aside class='item'>"+
+                        "<p><span>"+val.pid+")</span>"+
+                            "<span>"+val.country+"</span></p>"+
+                        "<figure>"+
+                            "<img src='." + val.src + "' />"+
+                            "<h6>"+val.pname+"</h6>"+
+                            "<p>$ "+val.price+"</p>"+
+                        "</figure>"+
+                    "</aside>";
+            // console.log(item);
+            if(cnt <= pageNum){
+                switch(cnt){
+                    case pageNum-11:$(".t1").html(item);break;
+                    case pageNum-10:$(".t2").html(item);break;
+                    case pageNum-9:$(".t3").html(item);break;
+                    case pageNum-8:$(".t4").html(item);break;
+                    case pageNum-7:$(".t5").html(item);break;
+                    case pageNum-6:$(".t6").html(item);break;
+                    case pageNum-5:$(".t7").html(item);break;
+                    case pageNum-4:$(".t8").html(item);break;
+                    case pageNum-3:$(".t9").html(item);break;
+                    case pageNum-2:$(".t10").html(item);break;
+                    case pageNum-1:$(".t11").html(item);break;
+                    case pageNum:$(".t12").html(item);break;
+                }
+            }
+
+            // Prev button created only when data is over "pageNum"
+            if(cnt%pageNum==0){
+                if(cnt2==1){
+                    crList("<<");
+                    crList("Prev");
+                }
+                crList(cnt2);
+                cnt2++;
+            }
+            cnt++;
+        })
+        console.log("***Fetch data:"+(cnt-1));
+        // Next button created only when data is over "pageNum"
+        if(cnt2>1){
+            crList(cnt2); // for last reminder page
+            crList("Next");
+            crList(">>");
+        }
+        
+        $(".searItemNum").text(cnt-1); 
+
+    }
+}
+
+/////////////////////////////////////////////
+
+// Page Handler function
+var counter = 0;
+var selectedElement = null;
+var currPage = null;
+let oflag    = false;
+var typeArray    = [];
+var priceArray   = [];
+var countryArray = [];
+var volumeArray  = [];
+
+var listHandler = (e) =>{
+    if($(e.target).text()=="<<"){
+        firstClick();
+    }else
+    if($(e.target).text()==">>"){
+        lastClick();
+    }else
+    if($(e.target).text()=="Prev"){
+        prevClick();
+    }else
+    if($(e.target).text()=="Next"){
+        nextClick();
+    }else{
+        selectedElement = e.target;
+        $('.page-link').removeClass("active");
+        $(selectedElement).addClass("active");
+        currPage = $(selectedElement).text();
+        pageRefresh(currPage);
+    }
+}
+
+// Move to First Page
+var firstClick = () =>{
+if(currPage>1){ // until first page
+    selectedElement = $('a.active');
+    $(selectedElement).removeClass("active");
+    selectedElement.parent().siblings().first().next().next().children().addClass("active");
+    currPage = $('a.active').text();
+    pageRefresh(currPage);
+}
+}
+// Move to Last Page
+var lastClick = () =>{
+if(currPage<cnt2){ // until last page
+    selectedElement = $('a.active');
+    $(selectedElement).removeClass("active");
+    selectedElement.parent().siblings().last().prev().prev().children().addClass("active");
+    currPage = $('a.active').text();
+    pageRefresh(currPage);
+};
+}
+// Move to Previous Page
+var prevClick = () =>{
+// console.log($('a.active').text());
+if(currPage>1){ // until first page
+    selectedElement = $('a.active');
+    $(selectedElement).removeClass("active");
+    selectedElement.parent().prev().children().addClass("active");
+    currPage = $('a.active').text();
+    pageRefresh(currPage);
+}
+}
+// Move to Next Page
+var nextClick = () =>{
+    if(currPage<cnt2){ // until last page
+        selectedElement = $('a.active');
+        $(selectedElement).removeClass("active");
+        selectedElement.parent().next().children().addClass("active");
+        currPage = $('a.active').text();
+        pageRefresh(currPage);
+    };
+}
+
+$(".searchbutton").click(()=>{
+    console.log("Search Btn Click!");
+    console.log($("#search").val());
+    cnt2 = 1;
+    currPage = 1;
+    oflag = true;
+    $('ul.pagination li').remove();
+    pageRefresh(1);
+})
+
+// Table data display function(Change Pages)
+var pageRefresh = (page) =>{
+    console.log("Page:"+page+"/"+cnt2);
+
+    // Clear Items
+    $(".t1").text(""); $(".t2").text(""); $(".t3").text("");
+    $(".t4").text(""); $(".t5").text(""); $(".t6").text("");
+    $(".t7").text(""); $(".t8").text(""); $(".t9").text("");
+    $(".t10").text("");$(".t11").text("");$(".t12").text("");
+
+    // Search index setting up
+    let search = $("#search").val().toLowerCase();
+    console.log("######### Search : "+search);
+    
+    cnt = 1; //set defalut
+    page = parseInt(page);
+    products.map((val,key)=>{
+        //Check whether search filter exists
+        if(search!="" && search!=null){
+            if(val.country.toLowerCase().indexOf(search) !== -1 || 
+                val.pname.toLowerCase().indexOf(search) !== -1 ){
+                // console.log("======Found it!!",cnt,cnt2);
+                // console.log(val);
+            }else{
+                return false;
+            };
+        };
+
+        //////////////////////////////////////////
+        // Filter : Type(Beer/Wine/Ciders)
+        //////////////////////////////////////////
+        let typechk = false;
+        // Check is None = Check is All
+        if(typeArray.length>0){
+            typeArray.forEach((idx)=>{
+                // if type matches filter then display item
+                if(idx.toString()==val.type.toString()){
+                    typechk = true;
+                } 
+            });
+            // only type match data display
+            if(typechk==false) return false;
+        }
+        //////////////////////////////////////////
+        // Filter : Price
+        //////////////////////////////////////////
+        let pricechk = false;
+        // Check is None = Check is All
+        if(priceArray.length>0){
+            priceArray.forEach((idx)=>{
+                // if price matches filter then display item
+                switch(idx){
+                    case 0:
+                        if(val.price<20) pricechk = true;
+                        break;
+                    case 20:
+                        if(val.price>=20 && val.price<50) pricechk = true;
+                        break;
+                    case 50:
+                        if(val.price>=50 && val.price<100) pricechk = true;
+                        break;
+                    case 100:
+                        if(val.price>=100) pricechk = true;
+                        break;
+                }
+            });
+            // only type match data display
+            if(pricechk==false) return false;
+        }
+        //////////////////////////////////////////
+        // Filter : Country
+        //////////////////////////////////////////
+        let countrychk = false;
+        // Check is None = Check is All
+        if(countryArray.length>0){
+            countryArray.forEach((idx)=>{
+                // ETC countries check case
+                if(idx=="ETC"){
+                    if(val.country=="Canada"||val.country=="USA"   ||
+                       val.country=="Mexico"||val.country=="Brazil"||
+                       val.country=="Japan" ||val.country=="Korea"  ){
+                        countrychk = false;
+                    }else{
+                        countrychk = true;
+                    }
+                }
+                // if 6 chosen countries matche filter then display item
+                if(idx==val.country){
+                    countrychk = true;
+                }
+            });
+            // only type match data display
+            if(countrychk==false) return false;
+        }
+        //////////////////////////////////////////
+        // Filter : Volume (0mL - 1L over)
+        //////////////////////////////////////////
+        let volhk = false;
+        // Check is None = Check is All
+        if(volumeArray.length>0){
+            volumeArray.forEach((idx)=>{
+                // if volume matches filter then display item
+                switch(idx){
+                    case 0:
+                        if(val.size<350) volhk = true;
+                        break;
+                    case 350:
+                        if(val.size>=350 && val.size<700) volhk = true;
+                        break;
+                    case 700:
+                        if(val.size>=700 && val.size<1000) volhk = true;
+                        break;
+                    case 1000:
+                        if(val.size>=1000) volhk = true;
+                        break;
+                }
+            });
+            // only type match data display
+            if(volhk==false) return false;
+        }
+
+        // Item Display Setting
+        let item = "<aside class='item'>"+
+                       "<p><span>"+val.pid+")</span>"+
+                          "<span>"+val.country+"</span></p>"+
+                       "<figure>"+
+                           "<img src='." + val.src + "' />"+
+                           "<h6>"+val.pname+"</h6>"+
+                           "<p>$ "+val.price+"</p>"+
+                       "</figure>"+
+                   "</aside>";
+        if(cnt > page*pageNum-pageNum && cnt <= page*pageNum){
+            switch(cnt){
+                case pageNum*page-11:$(".t1").html(item);break;
+                case pageNum*page-10:$(".t2").html(item);break;
+                case pageNum*page-9:$(".t3").html(item);break;
+                case pageNum*page-8:$(".t4").html(item);break;
+                case pageNum*page-7:$(".t5").html(item);break;
+                case pageNum*page-6:$(".t6").html(item);break;
+                case pageNum*page-5:$(".t7").html(item);break;
+                case pageNum*page-4:$(".t8").html(item);break;
+                case pageNum*page-3:$(".t9").html(item);break;
+                case pageNum*page-2:$(".t10").html(item);break;
+                case pageNum*page-1:$(".t11").html(item);break;
+                case pageNum*page:$(".t12").html(item);break;
+            }
+        }
+
+        // Prev button created only when data is over "pageNum"
+        if(cnt%pageNum==0 && oflag==true){
+            if(cnt2==1){
+                crList("<<");
+                crList("Prev");
+            }
+            crList(cnt2);
+            cnt2++;
+        }
+        cnt++;
+    })
+
+    console.log("***Fetch data:"+(cnt-1));
+    // Next button created only when data is over "pageNum"
+    if(cnt2>1 &&  oflag==true){
+        // when reminder 0, ex) 12,24,36 items, no add
+        if((cnt-1)%pageNum!=0){
+            crList(cnt2); // for last reminder page
+        }
+        crList("Next");
+        crList(">>");
+    } 
+
+    // Display less when items of last page are less than normal case
+    if($(".t9").text()==""){
+        $(".row3").hide();
+    }else{
+        $(".row3").show();
+    }
+
+    $(".searItemNum").text(cnt-1);
+    // only list(next,prev) changes its data, display it
+    oflag = false;
+}
+
+// Default Value Setting for Filter
+var goFilter = () =>{
+    cnt2 = 1;
+    currPage = 1;    
+    oflag = true;
+    $('ul.pagination li').remove();
+    pageRefresh(1);
+}
+//////////////////////////////////////
+// Filter : Type(Beer/Wine/Ciders)
+//////////////////////////////////////
+$(".type_w").click(()=>{
+    console.log("Wine Click!");
+    if($('.type_w').is(':checked')){
+        typeArray.push(1); //wine
+    }else{
+        typeArray.splice(typeArray.indexOf(1),1);
+    }
+    console.log("type:"+typeArray);
+    goFilter();
+})
+$(".type_b").click(()=>{
+    console.log("Beer Click!");
+    if($('.type_b').is(':checked')){
+        typeArray.push(2); //beer
+    }else{
+        typeArray.splice(typeArray.indexOf(2),1);
+    }
+    console.log("type:"+typeArray);
+    goFilter();
+})
+$(".type_c").click(()=>{
+    console.log("Cider Click!");
+    if($('.type_c').is(':checked')){
+        typeArray.push(3); // ciders
+    }else{
+        typeArray.splice(typeArray.indexOf(3),1);
+    }
+    console.log("type:"+typeArray);
+    goFilter();
+})
+
+//////////////////////////////////////
+// Price Filter ($0 ~ $100 over) 
+//////////////////////////////////////
+$(".price_1").click(()=>{
+    if($('.price_1').is(':checked')){
+        priceArray.push(0);
+    }else{
+        priceArray.splice(priceArray.indexOf(0),1);
+    }
+    console.log("price:"+priceArray);
+    goFilter();
+})
+$(".price_2").click(()=>{
+    if($('.price_2').is(':checked')){
+        priceArray.push(20);
+    }else{
+        priceArray.splice(priceArray.indexOf(20),1);
+    }
+    console.log("price:"+priceArray);
+    goFilter();
+})
+$(".price_3").click(()=>{
+    if($('.price_3').is(':checked')){
+        priceArray.push(50);
+    }else{
+        priceArray.splice(priceArray.indexOf(50),1);
+    }
+    console.log("price:"+priceArray);
+    goFilter();
+})
+$(".price_4").click(()=>{
+    if($('.price_4').is(':checked')){
+        priceArray.push(100);
+    }else{
+        priceArray.splice(priceArray.indexOf(100),1);
+    }
+    console.log("price:"+priceArray);
+    goFilter();
+})
+
+//////////////////////////////////////
+// Country Filter
+//////////////////////////////////////
+$(".country_ca").click(()=>{
+    if($('.country_ca').is(':checked')){
+        countryArray.push('Canada');
+    }else{
+        countryArray.splice(countryArray.indexOf('Canada'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+$(".country_us").click(()=>{
+    if($('.country_us').is(':checked')){
+        countryArray.push('USA');
+    }else{
+        countryArray.splice(countryArray.indexOf('USA'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+$(".country_mx").click(()=>{
+    if($('.country_mx').is(':checked')){
+        countryArray.push('Mexico');
+    }else{
+        countryArray.splice(countryArray.indexOf('Mexico'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+$(".country_br").click(()=>{
+    if($('.country_br').is(':checked')){
+        countryArray.push('Brazil');
+    }else{
+        countryArray.splice(countryArray.indexOf('Brazil'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+$(".country_jp").click(()=>{
+    if($('.country_jp').is(':checked')){
+        countryArray.push('Japan');
+    }else{
+        countryArray.splice(countryArray.indexOf('Japan'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+$(".country_kr").click(()=>{
+    if($('.country_kr').is(':checked')){
+        countryArray.push('Korea');
+    }else{
+        countryArray.splice(countryArray.indexOf('Korea'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+$(".country_etc").click(()=>{
+    if($('.country_etc').is(':checked')){
+        countryArray.push('ETC');
+    }else{
+        countryArray.splice(countryArray.indexOf('ETC'),1);
+    }
+    console.log("country:"+countryArray);
+    goFilter();
+})
+
+//////////////////////////////////////
+// Volume Filter (0 mL ~ 1L over) 
+//////////////////////////////////////
+$(".vol_1").click(()=>{
+    if($('.vol_1').is(':checked')){
+        volumeArray.push(0);
+    }else{
+        volumeArray.splice(volumeArray.indexOf(0),1);
+    }
+    console.log("volume:"+volumeArray);
+    goFilter();
+})
+$(".vol_2").click(()=>{
+    if($('.vol_2').is(':checked')){
+        volumeArray.push(350);
+    }else{
+        volumeArray.splice(volumeArray.indexOf(350),1);
+    }
+    console.log("volume:"+volumeArray);
+    goFilter();
+})
+$(".vol_3").click(()=>{
+    if($('.vol_3').is(':checked')){
+        volumeArray.push(700);
+    }else{
+        volumeArray.splice(volumeArray.indexOf(700),1);
+    }
+    console.log("volume:"+volumeArray);
+    goFilter();
+})
+$(".vol_4").click(()=>{
+    if($('.vol_4').is(':checked')){
+        volumeArray.push(1000);
+    }else{
+        volumeArray.splice(volumeArray.indexOf(1000),1);
+    }
+    console.log("volume:"+volumeArray);
+    goFilter();
+})
+
+///////////////////////////////////////////    
+</script>
+
+    

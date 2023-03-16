@@ -1,0 +1,32 @@
+<div class="billing row justify-content-center align-items-start g-2">
+    <!-- Order History Page Section -->
+    <div class="history col-10" ng-if="(userhistoryList.length==0)?false:true">
+        <h1>Order History</h1>
+        <h4 class="guest" ng-if="(currentuser==99999)?true:false">You are shopping as a <span>"GUEST"</span>. Join us now to get more benefits!</h4>
+        <h4 class="guest" ng-if="(currentuser==99999)?false:true">Thank you for shopping with us, {{currentname}} !!</h4>
+        <div class="table-responsive">
+            <br/>
+            <table class="table table-hover history-table">
+                <thead class="table-light">
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr ng-repeat="item in userhistoryList">
+                            <td>#{{item.oid}}</td>
+                            <td>Total Item(s) : {{item.totalamt}}</td>
+                            <td>Total Price : ${{item.totalprice}}</td>
+                            <td>Order Date : {{item.orderdate}}</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <div class="checkout">
+            <button ng-click=move() type="button" class="btn btn-danger">Continue Shopping</button>
+        </div>
+    </div>
+    <div class="col-10 emptycart" ng-if="(userhistoryList.length==0)?true:false">
+        <h2>You do not have any order yet!</h2>
+    </div>
+</div>
+
+<script>
+</script>

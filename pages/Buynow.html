@@ -1,0 +1,60 @@
+<div class="billing row justify-content-center align-items-start g-2">
+    <!-- Billing Page Section -->
+    <div class="bill col-10" ng-hide="chkoutflag">
+        <h1>Place your Order</h1>
+        <div class="table-responsive">
+            <br/>
+            <table class="table table-hover bill-table">
+                <thead class="table-light">
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr ng-repeat="(key,item) in buyList">
+                            <td class="billimg">
+                                <img height=80 src={{item.imgsrc}} />
+                            </td>
+                            <td class="billname">{{item.pname}}</td>
+                            <td>${{item.price}}</td>
+                            <td id="billamt">
+                                <span><a ng-click=editItem('+',item) id="billplus">+</a></span>
+                                <span>{{item.amount}}</span>
+                                <span><a ng-click=editItem('-',item) id="billplus">-</a></span>
+                            </td>
+                            <td>${{item.calTotal()}}</td>
+                            <td><a ng-click=removeItem(item.pid)><i class="fi fi-rs-trash"></i></a></td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="billfoot">
+                        <tr>
+                            <td colspan="3" width=60%></td>
+                            <td colspan="1" id="billfootrow">Subtotal({{buyNum}}items)</td>
+                            <td colspan="2" id="billfootrow2">${{buyTotal}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="1">PST 10%</td>
+                            <td colspan="2">${{(buyTotal/10).toFixed(2)}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td colspan="1">PST 5%</td>
+                            <td colspan="2">${{(buyTotal/20).toFixed(2)}}</td>
+                        </tr>
+                        <tr class="billtotal">
+                            <td colspan="3"></td>
+                            <td colspan="1">Total({{buyNum}}items)</td>
+                            <td colspan="2">${{(buyTotal*1.15).toFixed(2)}}</td>
+                        </tr>
+                    </tfoot>
+            </table>
+        </div>
+        <div class="checkout">
+            <button ng-click=chkout() type="button" class="btn btn-success">CHECK OUT</button>
+        </div>
+    </div>
+    <div class="col-10 chkout" ng-show="chkoutflag">
+        <h2>Thank you for shopping with us!</h2>
+    </div>
+</div>
+
+<script>
+</script>
